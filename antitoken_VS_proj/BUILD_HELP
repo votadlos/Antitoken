@@ -1,0 +1,14 @@
+Инструкция по сборке в Visual Studio 2013
+
+Для сборки без ошибок типа:
+.....
+Token.obj : error LNK2001: неразрешенный внешний символ ""public: virtual void __thiscall CryptoPP::StreamTransformation::ProcessLastBlock(unsigned char *,unsigned char const *,unsigned int)" (?ProcessLastBlock@StreamTransformation@CryptoPP@@UAEXPAEPBEI@Z)"
+Token.obj : error LNK2001: неразрешенный внешний символ ""void * __cdecl CryptoPP::AlignedAllocate(unsigned int)" (?AlignedAllocate@CryptoPP@@YAPAXI@Z)"
+....
+
+необходимо подключить несколько библиотек: cryptopp, winscard и crypt32. Последние две - штатные компоненты windows, cryptopp - есть в этом проекте собранная под x64.
+
+Через интерфейс Visual Studio это делается так:
+1. Project Properties --> c/c++ -> General --> Additional include directories - добавить директорию, где лежат .h от cryptopp (они есть в этом проекте)
+2. Project Properties --> Linker --> General --> Additional library directories - добавить путь, где лежит собранная cryptlib.lib (в этом проекте есть - под х64)
+3. Project Properties --> Linker --> Additional Dependencies - добавить библиотеки: Winscard.lib cryptlib.lib Crypt32.lib.
